@@ -1,23 +1,30 @@
 from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404
+from django.views.generic import ListView
 
 from main.models import Product, Category, Contact, Order
 
 
 # Create your views here.
-def home(request):
-    products_list = Product.objects.all()
-    category_list = Category.objects.all()
-    # Product.objects.all().delete()
-    # Category.objects.all().delete()
-    #
-    context = {
-        'object_list': products_list,
-        'title': 'Каталог'
-    }
 
-    return render(request, 'main/home.html', context)
+class ProductListView(ListView):
+    model = Product
+
+
+
+# def home(request):
+#     products_list = Product.objects.all()
+#     category_list = Category.objects.all()
+#     # Product.objects.all().delete()
+#     # Category.objects.all().delete()
+#     #
+#     context = {
+#         'object_list': products_list,
+#         'title': 'Каталог'
+#     }
+#
+#     return render(request, 'main/home.html', context)
 
 
 def product_pk(request, pk, page=None, per_page=None):
