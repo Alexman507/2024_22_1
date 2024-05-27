@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from main.models import Product, Category, Contact, Order
 
@@ -10,7 +10,6 @@ from main.models import Product, Category, Contact, Order
 
 class ProductListView(ListView):
     model = Product
-
 
 
 # def home(request):
@@ -27,16 +26,25 @@ class ProductListView(ListView):
 #     return render(request, 'main/product_list.html', context)
 
 
-def product_pk(request, pk, page=None, per_page=None):
-    obj = get_object_or_404(Product, pk=pk)
-    context = {
-        "object": obj,
-        "pagination": bool(per_page),
-        "per_page": per_page,
-        "page": page
-    }
+class ProductDetailView(DetailView):
+    model = Product
 
-    return render(request, 'main/product_pk.html', context)
+    def get_context_data(self, **kwargs):
+        context = super(ProductDetailView, self).get_context_data(**kwargs)
+        context['title'] = self.object.name
+        return context
+
+
+# def product_pk(request, pk, page=None, per_page=None):
+#     obj = get_object_or_404(Product, pk=pk)
+#     context = {
+#         "object": obj,
+#         "pagination": bool(per_page),
+#         "per_page": per_page,
+#         "page": page
+#     }
+#
+#     return render(request, 'main/product_pk.html', context)
 
 
 def pagination(request, page, per_page):
