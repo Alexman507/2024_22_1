@@ -24,7 +24,7 @@ class Command(BaseCommand):
     def json_read_products():
         products = []
         # Здесь мы получаем данные из фикстур с продуктами
-        with open('main/data/main_data.json', 'r', encoding='utf-8') as file:
+        with open('data/main_data.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
 
             for item in data:
