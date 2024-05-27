@@ -24,7 +24,7 @@ class ProductListView(ListView):
 #         'title': 'Каталог'
 #     }
 #
-#     return render(request, 'main/home.html', context)
+#     return render(request, 'main/product_list.html', context)
 
 
 def product_pk(request, pk, page=None, per_page=None):
