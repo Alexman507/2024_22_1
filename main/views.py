@@ -66,30 +66,33 @@ def pagination(request, page, per_page):
     return render(request, 'main/per_page.html', context)
 
 
-def contacts(request):
-    number = len(Contact.objects.all())
-    if number > 5:
-        contacts_list = Contact.objects.all()[number - 5: number + 1]
-    else:
-        contacts_list = Contact.objects.all()
+class ContactListView(ListView):
+    model = Contact
 
-    context = {
-        'object_list': contacts_list,
-        'title': 'Контакты'
-    }
-
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-
-        info = {'created_at': (datetime.now()).strftime('%Y-%m-%dT%H:%M'),
-                'name': name, 'phone': phone, 'message': message
-                }
-
-        Order.objects.create(**info)
-
-    return render(request, 'main/contacts.html', context)
+# def contacts(request):
+#     number = len(Contact.objects.all())
+#     if number > 5:
+#         contacts_list = Contact.objects.all()[number - 5: number + 1]
+#     else:
+#         contacts_list = Contact.objects.all()
+#
+#     context = {
+#         'object_list': contacts_list,
+#         'title': 'Контакты'
+#     }
+#
+#     if request.method == 'POST':
+#         name = request.POST.get('name')
+#         phone = request.POST.get('phone')
+#         message = request.POST.get('message')
+#
+#         info = {'created_at': (datetime.now()).strftime('%Y-%m-%dT%H:%M'),
+#                 'name': name, 'phone': phone, 'message': message
+#                 }
+#
+#         Order.objects.create(**info)
+#
+#     return render(request, 'main/contact_list.html', context)
 
 # def index(request):
 #     if request.method == 'POST':
