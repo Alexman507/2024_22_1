@@ -44,7 +44,7 @@ class ProductDetailView(DetailView):
 #         "page": page
 #     }
 #
-#     return render(request, 'main/product_pk.html', context)
+#     return render(request, 'main/product_detail.html', context)
 
 
 def pagination(request, page, per_page):
