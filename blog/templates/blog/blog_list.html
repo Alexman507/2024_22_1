@@ -15,13 +15,13 @@
 
             <div class="card-body">
                 <h5 class="card-title">
-                    <div style="color: blue"><b>{{object.name}}</b></div>
+                    <div style="color: blue"><b>{{object.title}}</b></div>
                 </h5>
                 <p class="card-text">
-                    {% if object.body|length >= 100 %}
-                    {{ object.body|slice:":100"}} ...
+                    {% if object.content|length >= 100 %}
+                    {{ object.content|slice:":100"}} ...
                     {% else %}
-                    {{ object.body}}
+                    {{ object.content}}
                     {% endif %}
                 </p>
                 <div class="btn-group">

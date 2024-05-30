@@ -1,7 +1,8 @@
 from django.urls import reverse_lazy, reverse
-from django.utils.text import slugify
+from pytils.translit import slugify
 from django.views.generic import CreateView, UpdateView, ListView, DetailView, DeleteView
 
+from blog.functions.utils import send_email
 from blog.models import Blog
 
 
@@ -49,6 +50,10 @@ class BlogDetailView(DetailView):
         self.object = super().get_object(queryset)
         self.object.views += 1
         self.object.save()
+
+        if self.object.views == 100:
+            send_email(self.object)
+
         return self.object
 
 
