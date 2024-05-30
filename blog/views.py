@@ -8,7 +8,7 @@ from blog.models import Blog
 class BlogCreateView(CreateView):
     model = Blog
     fields = ('title', 'slug', 'content', 'preview', 'created_at')
-    success_url = reverse_lazy('materials:list')
+    success_url = reverse_lazy('blog:list')
 
     def form_valid(self, form):
         if form.is_valid():
@@ -37,17 +37,13 @@ class BlogListView(ListView):
     model = Blog
 
     def get_queryset(self, *args, **kwargs):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(published=True)
         return queryset
 
 
 class BlogDetailView(DetailView):
     model = Blog
-
-    def __init__(self, **kwargs):
-        super().__init__(kwargs)
-        self.object = None
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -58,4 +54,4 @@ class BlogDetailView(DetailView):
 
 class BlogDeleteView(DeleteView):
     model = Blog
-    success_url = reverse_lazy('materials:list')
+    success_url = reverse_lazy('blog:list')
