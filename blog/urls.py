@@ -1,13 +1,14 @@
 from django.urls import path
 
-from main.apps import MainConfig
-from main.views import ProductListView, ProductDetailView, ContactListView, OrderCreateView
+from blog.apps import BlogConfig
+from blog.views import BlogCreateView, BlogListView, BlogDetailView, BlogUpdateView, BlogDeleteView
 
-app_name = MainConfig.name
+app_name = BlogConfig.name
 
 urlpatterns = [
-    path('', ProductListView.as_view(), name='product_list'),
-    path('products/<int:pk>', ProductDetailView.as_view(), name='product_detail'),
-    path('contacts/', ContactListView.as_view(), name='contacts'),
-    path('create/', OrderCreateView.as_view(), name='create_order'),
+    path('create/', BlogCreateView.as_view(), name='create'),
+    path('', BlogListView.as_view(), name='list'),
+    path('view/<int:pk>/', BlogDetailView.as_view(), name='view'),
+    path('edit/<int:pk>', BlogUpdateView.as_view(), name='edit'),
+    path('delete/<int:pk>', BlogDeleteView.as_view(), name='delete'),
 ]
