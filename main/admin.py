@@ -34,4 +34,4 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ("id", "name", "phone", "message", "created_at",)
-    search_fields = ("id", "name", "phone", )
+    search_fields = ("id", "name", "phone",)
