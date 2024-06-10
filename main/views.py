@@ -16,7 +16,7 @@ class GetContextMixin:
 class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy("main:home")
+    success_url = reverse_lazy("main:product_list")
 
 
 class ProductListView(GetContextMixin, ListView):
@@ -35,12 +35,12 @@ class ProductDetailView(GetContextMixin, DetailView):
 class ProductUpdateView(UpdateView):
     model = Product
     form_class = ProductForm
-    success_url = reverse_lazy('main:home')
+    success_url = reverse_lazy('main:product_list')
 
 
 class ProductDeleteView(DeleteView):
     model = Product
-    success_url = reverse_lazy('main:home')
+    success_url = reverse_lazy('main:product_list')
 
 
 class ContactListView(ListView):
