@@ -2,23 +2,34 @@ from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
-from main.form import ProductForm
-from main.models import Product, Contact, Order
+from main.forms import ProductForm
+from main.models import Product, Contact, Order, Version
 
 
-# Create your views here.
+class GetContextMixin:
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['version'] = Version.objects.all()
+        return context_data
 
-class ProductListView(ListView):
+
+class ProductListView(GetContextMixin, ListView):
     model = Product
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(GetContextMixin, DetailView):
     model = Product
 
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         context['title'] = self.object.name
         return context
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('main:home')
 
 
 class ContactListView(ListView):
@@ -36,31 +47,4 @@ class OrderCreateView(CreateView):
         return response
 
 
-class ProductUpdateWithSubjectsView(UpdateView):
-    model = Product
-    form_class = ProductForm
-    success_url = reverse_lazy('myapp:list')
 
-
-def get_context_data(self, **kwargs):
-    context_data = super().get_context_data(**kwargs)
-    FormSet = inlineformset_factory(self.model, Subject, form=SubjectForm, extra=1)
-    if self.request.method == 'POST':
-        formset = FormSet(self.request.POST, instance=self.object)
-    else:
-        formset = FormSet(instance=self.object)
-    context_data['formset'] = formset
-    return context_data
-
-
-def form_valid(self, form):
-    context_data = self.get_context_data()
-    formset = context_data['formset']
-    with transaction.atomic():
-        if form.is_valid():
-            self.object = form.save()  # Student
-            if formset.is_valid():
-                formset.instance = self.object
-                formset.save()  # Subject
-
-    return super().form_valid(form)
