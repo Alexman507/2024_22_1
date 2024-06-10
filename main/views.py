@@ -1,8 +1,8 @@
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from main.forms import ProductForm
+from main.forms import ProductForm, VersionForm
 from main.models import Product, Contact, Order, Version
 
 
@@ -11,6 +11,12 @@ class GetContextMixin:
         context_data = super().get_context_data(**kwargs)
         context_data['version'] = Version.objects.all()
         return context_data
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy("main:home")
 
 
 class ProductListView(GetContextMixin, ListView):
@@ -32,6 +38,11 @@ class ProductUpdateView(UpdateView):
     success_url = reverse_lazy('main:home')
 
 
+class ProductDeleteView(DeleteView):
+    model = Product
+    success_url = reverse_lazy('main:home')
+
+
 class ContactListView(ListView):
     model = Contact
 
@@ -47,4 +58,26 @@ class OrderCreateView(CreateView):
         return response
 
 
+class VersionListView(ListView):
+    model = Version
 
+
+class VersionDetailView(DetailView):
+    model = Version
+
+
+class VersionCreateView(CreateView):
+    model = Version
+    form_class = VersionForm
+    success_url = reverse_lazy("main:versions")
+
+
+class VersionUpdateView(UpdateView):
+    model = Version
+    form_class = VersionForm
+    success_url = reverse_lazy("main:versions")
+
+
+class VersionDeleteView(DeleteView):
+    model = Version
+    success_url = reverse_lazy("main:versions")
