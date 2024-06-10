@@ -64,7 +64,8 @@ class Contact(models.Model):
     - ИНН inn
     - Адрес address
     """
-    name = models.CharField(max_length=50, verbose_name="Название/Имя", help_text="Введите название подразделения или укажите контактное лицо", )
+    name = models.CharField(max_length=50, verbose_name="Название/Имя",
+                            help_text="Введите название подразделения или укажите контактное лицо", )
     phone = models.CharField(max_length=20, verbose_name="Телефон", help_text="Введите телефон", )
     inn = models.CharField(default="Не указан", max_length=12, verbose_name="ИНН", help_text="Введите ИНН", )
     address = models.CharField(default="Не указан", max_length=100, verbose_name="Адрес", help_text="Введите адрес", )
@@ -98,3 +99,31 @@ class Order(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.phone} \n {self.created_at} \n {self.message}"
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product,
+                                on_delete=models.CASCADE,
+                                verbose_name="продукт",
+                                help_text="название продукта",
+                                related_name="product",
+                                )
+    number = models.PositiveIntegerField(
+        verbose_name="Номер версии",
+        help_text="укажите номер версии",
+    )
+    name = models.CharField(
+        max_length=100,
+        verbose_name="Название версии",
+        help_text="Введите название версии",
+    )
+    sign = models.BooleanField(
+        verbose_name="Признак текущей версии")
+
+    class Meta:
+        verbose_name = "Версия"
+        verbose_name_plural = "Версии"
+        ordering = ["number", "name"]
+
+    def __str__(self):
+        return f"{self.number}-{self.name}:{self.sign}"
