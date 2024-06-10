@@ -37,8 +37,6 @@ class OrderCreateView(CreateView):
 
 
 class ProductUpdateWithSubjectsView(UpdateView):
-
-
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('myapp:list')
